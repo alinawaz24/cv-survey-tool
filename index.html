@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Screening Assistant - Research Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #1f4068;
+        }
+        .container {
+            margin-bottom: 30px;
+        }
+        .hidden {
+            display: none;
+        }
+        .button {
+            background-color: #1f4068;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #162b47;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .progress {
+            width: 0%;
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+        .cv-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .rating-container {
+            margin-top: 15px;
+        }
+        input[type="range"] {
+            width: 80%;
+        }
+        .rating-value {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+        .consent-checkbox {
+            margin: 10px 0;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            background-color: #f8d7da;
+            color: #721c24;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div id="progress" class="progress">0%</div>
+    </div>
+
+    <div id="flash-message" class="flash-message"></div>
+
+    <!-- Stage 1: Information Sheet -->
+    <div id="info-sheet" class="container">
+        <h1>PARTICIPANT INFORMATION SHEET</h1>
+        <h2>Research Project: Interview Screening Assistant</h2>
+        <p><strong>Researcher:</strong> Ali Nawaz<br>
+        <strong>Department:</strong> Computer Science<br>
+        <strong>University of Sheffield</strong></p>
+        
+        <h3>Invitation to Participate</h3>
+        <p>You are being invited to take part in a research project. Before you decide whether to participate, it is important for you to understand why the research is being conducted and what it will involve. Please read the following information carefully. Take time to decide whether you wish to take part.</p>
+        
+        <h3>What is the purpose of this project?</h3>
+        <p>This research aims to compare how humans evaluate job candidates based on CVs against automated assessment software. The study seeks to understand the similarities and differences between human judgment and algorithmic assessment in the recruitment process. This research is being conducted as part of my final dissertation in Artificial Intelligence & Computer Science at the University of Sheffield.</p>
+        
+        <h3>Why have I been chosen?</h3>
+        <p>You have been invited to participate as a member of the university community. We are recruiting approximately 20 participants from various academic backgrounds, including both students and staff, to represent evaluators with different levels of experience in candidate assessment.</p>
+        
+        <h3>Do I have to take part?</h3>
+        <p>Your participation is entirely voluntary. If you decide to take part, you will be given this information sheet to keep and asked to sign a consent form. You are free to withdraw at any time before submitting your final evaluations, without giving a reason and with no negative consequences. If you wish to withdraw from the research, please contact the researcher using the details provided below.</p>
+        <p>Taking part in this research is voluntary and will not create a legally binding agreement or any form of employment with the University of Sheffield.</p>
+        
+        <h3>What will happen if I take part?</h3>
+        <p>If you decide to participate, you will be asked to:</p>
+        <ol>
+            <li>Review a job description for a specific professional role</li>
+            <li>Evaluate 5 anonymized CVs against this job description</li>
+            <li>Rate each CV using a standardized scoring form</li>
+            <li>Rank the CVs in order of preference for the position</li>
+        </ol>
+        <p>The entire process will take approximately 10-12 minutes to complete.</p>
+        
+        <h3>What are the possible disadvantages of taking part?</h3>
+        <p>There are no significant risks or disadvantages associated with participating in this study. The task involves only reading and evaluating documents, which is a routine cognitive activity similar to what you might do in academic or professional settings.</p>
+        
+        <h3>What are the possible benefits of taking part?</h3>
+        <p>While there are no immediate personal benefits from participating in this research, your contribution will help advance my understanding of recruitment processes and may inform the development of fairer and more efficient hiring practices in the future.</p>
+        
+        <h3>Will my taking part in this project be kept confidential?</h3>
+        <p>All your personal data will be kept strictly confidential and will only be accessible to members of the research team. Your evaluations will be anonymized during data analysis, and you will not be identifiable in any reports or publications resulting from this research.</p>
+        
+        <h3>Data Protection</h3>
+        <p>The data collected during this research will be stored securely on password-protected university systems. Only the research team will have access to your identifiable personal information. This identifiable information will be deleted once data collection is complete, while the anonymized evaluation data will be retained for analysis.</p>
+        <p>This research is carried out 'in the public interest' in accordance with data protection legislation. Further information can be found in the University's Privacy Notice: <a href="https://www.sheffield.ac.uk/govern/data-protection/privacy/general" target="_blank">https://www.sheffield.ac.uk/govern/data-protection/privacy/general</a>.</p>
+        <p>The University of Sheffield will act as the Data Controller for this study. This means that the University is responsible for looking after your information and using it properly.</p>
+        
+        <h3>What will happen to the results of the research?</h3>
+        <p>The results of this research will be included in my final dissertation project. A summary of the findings can be made available to you upon request. You will not be identified in any report or publication.</p>
+        <p>Due to the nature of this research, others may find the data collected useful in answering future research questions. I will ask for your explicit consent for your anonymized data to be shared for future research purposes.</p>
+        
+        <h3>Who has ethically reviewed the project?</h3>
+        <p>This project has been ethically approved by the School of Computer Sciences at the University of Sheffield.</p>
+        
+        <h3>What if something goes wrong and I wish to complain?</h3>
+        <p>If you would like to complain about any aspect of the research or if you feel that you have been exploited, abused, or harmed as a result of taking part in the research, please contact Professor Jon P Barker at j.p.barker@sheffield.ac.uk. If you feel your complaint has not been handled in a satisfactory way, you can contact the Head of the Department of Computer Science, Professor Heidi Christensen at heidi.christensen@sheffield.ac.uk. If your complaint is about how your personal data has been handled, you can find information about how to raise a complaint in the University's Privacy Notice: <a href="https://www.sheffield.ac.uk/govern/data-protection/privacy/general" target="_blank">https://www.sheffield.ac.uk/govern/data-protection/privacy/general</a>.</p>
+        
+        <h3>Contact for further information</h3>
+        <p>If you have any questions or require further information, please contact:</p>
+        <p><strong>Primary Researcher:</strong><br>
+        Ali Nawaz<br>
+        anawaz1@sheffield.ac.uk<br>
+        Department of Computer Science<br>
+        University of Sheffield.</p>
+        
+        <p><strong>Alternative Contact:</strong><br>
+        Professor Jon P Barker<br>
+        j.p.barker@sheffield.ac.uk<br>
+        Department of Computer Science<br>
+        University of Sheffield</p>
+        
+        <button id="info-continue" class="button">Continue to Consent Form</button>
+    </div>
+
+    <!-- Stage 2: Consent Form -->
+    <div id="consent-form" class="container hidden">
+        <h1>Interview Screening Assistant - Participant Consent Form</h1>
+        
+        <h3>Taking Part in the Project</h3>
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent1"> 
+            <label for="consent1">I have read and understood the project information sheet or the project has been fully explained to me.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent2"> 
+            <label for="consent2">I have been given the chance to ask questions about the project.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent3"> 
+            <label for="consent3">I understand how to raise a concern or make a complaint.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent4"> 
+            <label for="consent4">I agree to take part in the project. I understand that taking part in the project will include reviewing a job description and 5 anonymized CVs, rating each CV using a standardized form, and ranking them in order of preference.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent5"> 
+            <label for="consent5">I understand that by choosing to participate as a volunteer in this research, this does not create a legally binding agreement nor is it intended to create an employment relationship with the University of Sheffield.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent6"> 
+            <label for="consent6">I understand that I can withdraw from the research at any time before submitting my final evaluations. I understand that I do not have to give any reasons for this and there will be no negative consequences if I choose to withdraw.</label>
+        </div>
+        
+        <h3>How my information will be used during and after the project</h3>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent7"> 
+            <label for="consent7">I understand my personal details such as name and email address will not be seen by anyone outside the project.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent8"> 
+            <label for="consent8">I understand and agree that my anonymized evaluations may be quoted in publications, reports, and other research outputs. I understand that I will not be named in these outputs.</label>
+        </div>
+        
+        <div class="consent-checkbox">
+            <input type="checkbox" id="consent9"> 
+            <label for="consent9">I agree that my anonymized data may be used in future research and shared with other researchers.</label>
+        </div>
+        
+        <div>
+            <p>Please provide your name to sign this consent form:</p>
+            <input type="text" id="participant-name" placeholder="Your Full Name">
+            <p>Today's date: <span id="current-date"></span></p>
+        </div>
+        
+        <button id="consent-continue" class="button">Continue to Survey</button>
+    </div>
+
+    <!-- Stage 3: Job Description -->
+    <div id="job-description" class="container hidden">
+        <h1>Job Description</h1>
+        <div id="job-details">
+            <h2>Data Scientist</h2>
+            <h3>About the Role:</h3>
+            <p>We are seeking a talented Data Scientist to join our growing analytics team. The ideal candidate will have strong analytical skills and experience in machine learning and statistical analysis. This role will involve working with large datasets to extract insights and build predictive models that drive business decisions.</p>
+            
+            <h3>Key Responsibilities:</h3>
+            <ul>
+                <li>Develop and implement machine learning models to solve complex business problems</li>
+                <li>Work with stakeholders to understand business needs and translate them into data science projects</li>
+                <li>Clean, preprocess and analyze large datasets from various sources</li>
+                <li>Create data visualizations and reports to communicate findings effectively</li>
+                <li>Collaborate with software engineers to implement models into production systems</li>
+                <li>Stay up-to-date with the latest developments in data science and machine learning</li>
+            </ul>
+            
+            <h3>Required Qualifications:</h3>
+            <ul>
+                <li>Masters or PhD in Computer Science, Statistics, Mathematics or related field</li>
+                <li>Minimum 2 years of experience in data science or related role</li>
+                <li>Strong programming skills in Python and experience with data science libraries (NumPy, Pandas, Scikit-learn)</li>
+                <li>Experience with machine learning algorithms and statistical analysis</li>
+                <li>Familiarity with SQL and database concepts</li>
+                <li>Excellent communication and presentation skills</li>
+            </ul>
+            
+            <h3>Preferred Qualifications:</h3>
+            <ul>
+                <li>Experience with deep learning frameworks (TensorFlow, PyTorch)</li>
+                <li>Knowledge of big data technologies (Hadoop, Spark)</li>
+                <li>Experience with cloud platforms (AWS, Azure, GCP)</li>
+                <li>Domain knowledge in finance, e-commerce, or healthcare</li>
+            </ul>
+        </div>
+        <button id="job-continue" class="button">Continue to CV Evaluation</button>
+    </div>
+
+    <!-- Stage 4: CV Evaluation -->
+    <div id="cv-evaluation" class="container hidden">
+        <h1>CV Evaluation</h1>
+        <p>Please review each CV and rate it on a scale of 0-100 based on the candidate's suitability for the Data Scientist position described.</p>
+        
+        <div id="cv-container">
+            <!-- CV 1 -->
+            <div class="cv-card">
+                <h2>Candidate 1</h2>
+                <div class="cv-content">
+                    <h3>Education</h3>
+                    <ul>
+                        <li>PhD in Machine Learning, Stanford University (2019-2023)</li>
+                        <li>MSc in Computer Science, MIT (2017-2019)</li>
+                        <li>BSc in Mathematics, University of California, Berkeley (2013-2017)</li>
+                    </ul>
+                    
+                    <h3>Experience</h3>
+                    <ul>
+                        <li><strong>Data Science Intern, Google (2022)</strong>
+                            <ul>
+                                <li>Developed recommendation algorithms using deep learning</li>
+                                <li>Improved click-through rates by 15% using customized neural networks</li>
+                            </ul>
+                        </li>
+                        <li><strong>Research Assistant, Stanford AI Lab (2020-2023)</strong>
+                            <ul>
+                                <li>Published 3 papers on reinforcement learning in top conferences</li>
+                                <li>Developed novel algorithms for multiagent learning environments</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>Programming: Python, R, Java, C++</li>
+                        <li>Machine Learning: TensorFlow, PyTorch, Scikit-learn</li>
+                        <li>Data Processing: SQL, Pandas, NumPy, Spark</li>
+                        <li>Tools: Git, Docker, AWS, Azure</li>
+                    </ul>
+                </div>
+                <div class="rating-container">
+                    <label for="rating1">Rating (0-100):</label>
+                    <input type="range" id="rating1" min="0" max="100" value="50">
+                    <span id="rating1-value" class="rating-value">50</span>
+                    <div>
+                        <label for="feedback1">Feedback (optional):</label>
+                        <textarea id="feedback1" placeholder="Enter your comments about this candidate..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CV 2 -->
+            <div class="cv-card">
+                <h2>Candidate 2</h2>
+                <div class="cv-content">
+                    <h3>Education</h3>
+                    <ul>
+                        <li>MSc in Data Science, University of Edinburgh (2018-2020)</li>
+                        <li>BSc in Statistics, University of Manchester (2014-2018)</li>
+                    </ul>
+                    
+                    <h3>Experience</h3>
+                    <ul>
+                        <li><strong>Data Scientist, Spotify (2020-Present)</strong>
+                            <ul>
+                                <li>Lead a team of 3 data scientists working on music recommendation algorithms</li>
+                                <li>Implemented A/B testing framework to evaluate model performance</li>
+                                <li>Reduced model training time by 40% through pipeline optimization</li>
+                            </ul>
+                        </li>
+                        <li><strong>Business Intelligence Analyst, Tesco (2018-2020)</strong>
+                            <ul>
+                                <li>Analyzed customer purchase patterns to optimize marketing campaigns</li>
+                                <li>Built dashboards for executive team using Tableau</li>
+                                <li>Implemented customer segmentation models using clustering algorithms</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>Programming: Python, SQL, JavaScript</li>
+                        <li>Machine Learning: Scikit-learn, XGBoost, TensorFlow</li>
+                        <li>Data Visualization: Tableau, Power BI, Matplotlib</li>
+                        <li>Cloud: AWS (Certified Solutions Architect)</li>
+                    </ul>
+                </div>
+                <div class="rating-container">
+                    <label for="rating2">Rating (0-100):</label>
+                    <input type="range" id="rating2" min="0" max="100" value="50">
+                    <span id="rating2-value" class="rating-value">50</span>
+                    <div>
+                        <label for="feedback2">Feedback (optional):</label>
+                        <textarea id="feedback2" placeholder="Enter your comments about this candidate..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CV 3 -->
+            <div class="cv-card">
+                <h2>Candidate 3</h2>
+                <div class="cv-content">
+                    <h3>Education</h3>
+                    <ul>
+                        <li>MSc in Computer Science, Imperial College London (2016-2018)</li>
+                        <li>BEng in Software Engineering, University of Warwick (2012-2016)</li>
+                    </ul>
+                    
+                    <h3>Experience</h3>
+                    <ul>
+                        <li><strong>Machine Learning Engineer, Amazon (2019-Present)</strong>
+                            <ul>
+                                <li>Developed ML models for product recommendation and demand forecasting</li>
+                                <li>Built and maintained data pipelines processing over 10TB of data daily</li>
+                                <li>Collaborated with product teams to implement features based on ML insights</li>
+                            </ul>
+                        </li>
+                        <li><strong>Software Engineer, IBM (2018-2019)</strong>
+                            <ul>
+                                <li>Developed backend services for enterprise applications</li>
+                                <li>Implemented RESTful APIs and microservices architecture</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>Programming: Python, Java, Scala</li>
+                        <li>Big Data: Hadoop, Spark, Kafka</li>
+                        <li>Cloud: AWS, Docker, Kubernetes</li>
+                        <li>Databases: PostgreSQL, MongoDB, Cassandra</li>
+                    </ul>
+                </div>
+                <div class="rating-container">
+                    <label for="rating3">Rating (0-100):</label>
+                    <input type="range" id="rating3" min="0" max="100" value="50">
+                    <span id="rating3-value" class="rating-value">50</span>
+                    <div>
+                        <label for="feedback3">Feedback (optional):</label>
+                        <textarea id="feedback3" placeholder="Enter your comments about this candidate..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CV 4 -->
+            <div class="cv-card">
+                <h2>Candidate 4</h2>
+                <div class="cv-content">
+                    <h3>Education</h3>
+                    <ul>
+                        <li>PhD in Statistics, University of Oxford (2015-2019)</li>
+                        <li>MSc in Mathematical Modeling, University College London (2013-2015)</li>
+                        <li>BSc in Mathematics, University of Bristol (2010-2013)</li>
+                    </ul>
+                    
+                    <h3>Experience</h3>
+                    <ul>
+                        <li><strong>Senior Data Scientist, AstraZeneca (2020-Present)</strong>
+                            <ul>
+                                <li>Lead data science initiatives for drug discovery using machine learning</li>
+                                <li>Developed predictive models for clinical trial outcomes</li>
+                                <li>Collaborated with research scientists to interpret complex biological data</li>
+                            </ul>
+                        </li>
+                        <li><strong>Statistical Consultant, Deloitte (2019-2020)</strong>
+                            <ul>
+                                <li>Provided statistical analysis and modeling for client projects</li>
+                                <li>Developed risk assessment models for financial institutions</li>
+                                <li>Created interactive dashboards for data exploration</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>Programming: R, Python, MATLAB</li>
+                        <li>Statistics: Bayesian modeling, Time series analysis, Survival analysis</li>
+                        <li>Machine Learning: Random Forests, SVMs, Neural Networks</li>
+                        <li>Visualization: ggplot2, Shiny, D3.js</li>
+                    </ul>
+                </div>
+                <div class="rating-container">
+                    <label for="rating4">Rating (0-100):</label>
+                    <input type="range" id="rating4" min="0" max="100" value="50">
+                    <span id="rating4-value" class="rating-value">50</span>
+                    <div>
+                        <label for="feedback4">Feedback (optional):</label>
+                        <textarea id="feedback4" placeholder="Enter your comments about this candidate..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CV 5 -->
+            <div class="cv-card">
+                <h2>Candidate 5</h2>
+                <div class="cv-content">
+                    <h3>Education</h3>
+                    <ul>
+                        <li>MSc in Artificial Intelligence, Georgia Tech (2017-2019)</li>
+                        <li>BSc in Computer Engineering, University of Texas (2013-2017)</li>
+                    </ul>
+                    
+                    <h3>Experience</h3>
+                    <ul>
+                        <li><strong>Data Scientist, Facebook (2019-2022)</strong>
+                            <ul>
+                                <li>Developed algorithms to detect misinformation and harmful content</li>
+                                <li>Built natural language processing models for content classification</li>
+                                <li>Optimized ML pipelines to process billions of posts daily</li>
+                            </ul>
+                        </li>
+                        <li><strong>ML Engineer, Twitter (2022-Present)</strong>
+                            <ul>
+                                <li>Working on recommendation systems for timeline personalization</li>
+                                <li>Implementing deep learning models for user engagement prediction</li>
+                                <li>Building real-time inference systems for content moderation</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>Programming: Python, C++, Go</li>
+                        <li>Deep Learning: PyTorch, TensorFlow, BERT, GPT</li>
+                        <li>Big Data: Spark, Hadoop, Hive</li>
+                        <li>Cloud: GCP, Kubernetes, CI/CD pipelines</li>
+                    </ul>
+                </div>
+                <div class="rating-container">
+                    <label for="rating5">Rating (0-100):</label>
+                    <input type="range" id="rating5" min="0" max="100" value="50">
+                    <span id="rating5-value" class="rating-value">50</span>
+                    <div>
+                        <label for="feedback5">Feedback (optional):</label>
+                        <textarea id="feedback5" placeholder="Enter your comments about this candidate..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="submit-evaluation" class="button">Submit Evaluation</button>
+    </div>
+
+    <!-- Stage 5: Thank You -->
+    <div id="thank-you" class="container hidden">
+        <h1>Thank You</h1>
+        <p>Thank you for participating in this research study. Your evaluation has been successfully submitted.</p>
+        <p>Your contribution will help advance our understanding of recruitment processes and may inform the development of fairer and more efficient hiring practices in the future.</p>
+        <p>If you have any questions or would like to receive a summary of the findings when the research is complete, please contact:</p>
+        <p><strong>Ali Nawaz</strong><br>
+        anawaz1@sheffield.ac.uk<br>
+        Department of Computer Science<br>
+        University of Sheffield</p>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+        
+        // Show flash message
+        function showFlashMessage(message) {
+            const flashMessage = document.getElementById('flash-message');
+            flashMessage.textContent = message;
+            flashMessage.style.display = 'block';
+            setTimeout(() => {
+                flashMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            document.getElementById('progress').style.width = percent + '%';
+            document.getElementById('progress').textContent = percent + '%';
+        }
+        
+        // Handle stage navigation
+        document.getElementById('info-continue').addEventListener('click', function() {
+            document.getElementById('info-sheet').classList.add('hidden');
+            document.getElementById('consent-form').classList.remove('hidden');
+            updateProgress(25);
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('consent-continue').addEventListener('click', function() {
+            // Check if all consent checkboxes are checked
+            const consentChecked = Array.from({length: 9}, (_, i) => document.getElementById(`consent${i+1}`).checked)
+                .every(checked => checked);
+            
+            // Check if name is provided
+            const name = document.getElementById('participant-name').value.trim();
+            
+            if (!consentChecked) {
+                showFlashMessage('Please check all consent items to continue.');
+                return;
+            }
+            
+            if (!name) {
+                showFlashMessage('Please provide your name to sign the consent form.');
+                return;
+            }
+            
+            document.getElementById('consent-form').classList.add('hidden');
+            document.getElementById('job-description').classList.remove('hidden');
+            updateProgress(50);
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('job-continue').addEventListener('click', function() {
+            document.getElementById('job-description').classList.add('hidden');
+            document.getElementById('cv-evaluation').classList.remove('hidden');
+            updateProgress(75);
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('submit-evaluation').addEventListener('click', function() {
+            // Get all ratings
+            const ratings = {
+                candidate1: parseInt(document.getElementById('rating1').value),
+                candidate2: parseInt(document.getElementById('rating2').value),
+                candidate3: parseInt(document.getElementById('rating3').value),
+                candidate4: parseInt(document.getElementById('rating4').value),
+                candidate5: parseInt(document.getElementById('rating5').value)
+            };
+            
+            // Get all feedback
+            const feedback = {
+                candidate1: document.getElementById('feedback1').value.trim(),
+                candidate2: document.getElementById('feedback2').value.trim(),
+                candidate3: document.getElementById('feedback3').value.trim(),
+                candidate4: document.getElementById('feedback4').value.trim(),
+                candidate5: document.getElementById('feedback5').value.trim()
+            };
+            
+            // In a real application, you would send this data to a server
+            console.log('Ratings:', ratings);
+            console.log('Feedback:', feedback);
+            
+            // For now, just show thank you page
+            document.getElementById('cv-evaluation').classList.add('hidden');
+            document.getElementById('thank-you').classList.remove('hidden');
+            updateProgress(100);
+            window.scrollTo(0, 0);
+            
+            // This is where you would normally send the data to the server
+            // For GitHub Pages, you would need to use a third-party service for data collection
+            // such as Formspree, Google Forms, or a custom serverless function
+        });
+        
+        // Update rating display values
+        for (let i = 1; i <= 5; i++) {
+            const ratingSlider = document.getElementById(`rating${i}`);
+            const ratingValue = document.getElementById(`rating${i}-value`);
+            
+            ratingSlider.addEventListener('input', function() {
+                ratingValue.textContent = this.value;
+            });
+        }
+    </script>
+</body>
+</html>
