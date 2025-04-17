@@ -791,7 +791,7 @@
                 candidate4: parseInt(document.getElementById('rating4').value),
                 candidate5: parseInt(document.getElementById('rating5').value)
             };
-            
+    
             // Get all feedback
             const feedback = {
                 candidate1: document.getElementById('feedback1').value.trim(),
@@ -800,29 +800,37 @@
                 candidate4: document.getElementById('feedback4').value.trim(),
                 candidate5: document.getElementById('feedback5').value.trim()
             };
-            
-            // Create submission object
-            const submission = {
-                timestamp: new Date().toISOString(),
-                participant: document.getElementById('participant-name').value,
-                ratings: ratings,
-                feedback: feedback
-            };
-            
-            // Get existing submissions from localStorage
-            let submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
-            
-            // Add new submission
-            submissions.push(submission);
-            
-            // Save back to localStorage (but don't show the download button to participants)
-            localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
-            
-            // Show thank you page
-            document.getElementById('cv-evaluation').classList.add('hidden');
-            document.getElementById('thank-you').classList.remove('hidden');
-            updateProgress(100);
-            window.scrollTo(0, 0);
+    
+            // Create form data to send
+            const formData = new FormData();
+            formData.append('participant_name', document.getElementById('participant-name').value);
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('ratings', JSON.stringify(ratings));
+            formData.append('feedback', JSON.stringify(feedback));
+    
+            // Send data to Formspree
+            fetch('https://formspree.io/f/xpwpgzzv', {  // Replace with your actual form ID
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show thank you page
+                    document.getElementById('cv-evaluation').classList.add('hidden');
+                    document.getElementById('thank-you').classList.remove('hidden');
+                    updateProgress(100);
+                    window.scrollTo(0, 0);
+                } else {
+                    showFlashMessage('There was a problem submitting your evaluation. Please try again.');
+                }
+            })
+            .catch(error => {
+                showFlashMessage('There was a problem submitting your evaluation. Please try again.');
+                console.error(error);
+            });
         });
         
         // Update rating display values
