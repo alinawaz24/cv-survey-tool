@@ -582,6 +582,7 @@
             window.scrollTo(0, 0);
         });
         
+        // Updated submit button code
         document.getElementById('submit-evaluation').addEventListener('click', function() {
             // Get all ratings
             const ratings = {
@@ -601,19 +602,28 @@
                 candidate5: document.getElementById('feedback5').value.trim()
             };
             
-            // In a real application, you would send this data to a server
-            console.log('Ratings:', ratings);
-            console.log('Feedback:', feedback);
+            // Create submission object
+            const submission = {
+                timestamp: new Date().toISOString(),
+                participant: document.getElementById('participant-name').value,
+                ratings: ratings,
+                feedback: feedback
+            };
             
-            // For now, just show thank you page
+            // Get existing submissions from localStorage
+            let submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
+            
+            // Add new submission
+            submissions.push(submission);
+            
+            // Save back to localStorage (but don't show the download button to participants)
+            localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
+            
+            // Show thank you page
             document.getElementById('cv-evaluation').classList.add('hidden');
             document.getElementById('thank-you').classList.remove('hidden');
             updateProgress(100);
             window.scrollTo(0, 0);
-            
-            // This is where you would normally send the data to the server
-            // For GitHub Pages, you would need to use a third-party service for data collection
-            // such as Formspree, Google Forms, or a custom serverless function
         });
         
         // Update rating display values
@@ -624,6 +634,36 @@
             ratingSlider.addEventListener('input', function() {
                 ratingValue.textContent = this.value;
             });
+        }
+        
+        // Admin functions (for researcher use only - accessible from console)
+        function viewAllSubmissions() {
+            let submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
+            console.log('All submissions:', submissions);
+            return submissions;
+        }
+        
+        function clearAllSubmissions() {
+            localStorage.removeItem('surveySubmissions');
+            console.log('All submissions cleared');
+        }
+        
+        function downloadAllSubmissions() {
+            let submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
+            if (submissions.length === 0) {
+                console.log('No submissions found');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(submissions, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'survey_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
         }
     </script>
 </body>
